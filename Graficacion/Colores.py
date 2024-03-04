@@ -6,8 +6,8 @@ import sys
 # Nota: Para usar este programa es necesario tener instalado Python y la librebria Pygame
 
 # Dimensiones de la ventana
-WIDTH = 1360
-HEIGHT = 768
+WIDTH = 800
+HEIGHT = 600
 
 # Inicializar pygame
 pygame.init()
