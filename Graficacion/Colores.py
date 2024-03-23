@@ -6,8 +6,8 @@ import sys
 # Nota: Para usar este programa es necesario tener instalado Python y la librebria Pygame
 
 # Dimensiones de la ventana
-WIDTH = 800
-HEIGHT = 600
+WIDTH = 1366
+HEIGHT = 768
 
 # Inicializar pygame
 pygame.init()
@@ -46,7 +46,7 @@ for r in range(0, 256, incremento):
             current_color = (r, g, b)
 
             # Dibujar el cuadrado
-            pygame.draw.rect(screen, current_color, (x, y, 2, 2))
+            pygame.draw.rect(screen, current_color, (x, y, 3, 3))
             pygame.display.update()
 
             # Incrementar el contador de píxeles pintados
@@ -65,11 +65,11 @@ for r in range(0, 256, incremento):
                     sys.exit()
 
             # Mover a la siguiente posición
-            x += 2
+            x += 3
             # Si llega al borde derecho, saltar de línea
             if x >= WIDTH:
                 x = 0
-                y += 2
+                y += 3
 
             # Si llega al borde inferior, salir del bucle
             if y >= HEIGHT:
