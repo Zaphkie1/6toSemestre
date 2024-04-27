@@ -1,5 +1,4 @@
-package Ejercicios;
-
+package Ejercicios.Expresiones_TreeMap;
 import java.util.regex.Pattern;
 
 public class validarClave {
