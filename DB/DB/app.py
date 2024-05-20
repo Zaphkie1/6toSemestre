@@ -1,44 +1,56 @@
-from flask import Flask, render_template, request
-from product import Product  # Asegúrate de que estás importando la clase Product correctamente
-import db as dbase
+from bson import ObjectId
+from flask import Flask, flash, render_template, request, url_for, redirect
+import db as datase
+from product import Product
 
+db = datase.dbConnection()
+app_secret_key = 'secret_key'
 app = Flask(__name__)
 
-# Conexión a la base de datos
-db = dbase.dbConnection
-
-
+# Ruta principal
 @app.route('/')
 def index():
-    return render_template("index.html")
+    products = db['products']
+    data = products.find()
+    return render_template('index.html', dataProduct=data)
 
-
+# Ruta productor
 @app.route('/add_product', methods=['POST'])
 def add_product():
     if request.method == 'POST':
+        products = db['products']
         nombre = request.form['nombre']
         precio = request.form['precio']
         cantidad = request.form['cantidad']
 
-        # Crear instancia de la clase Product
-        product = Product(nombre, precio, cantidad)
-        # Obtener los datos formateados para la base de datos
-        data = product.toDBCollection()
+        if nombre and precio and cantidad:
+            product = Product(nombre, precio, cantidad)
+            products.insert_one(product.toDBCollection())
+            flash('Producto Agregado')
+        else:
+            flash('Todos los campos son requeridos')
+    return redirect(url_for('index'))
 
-        # Aquí deberías insertar 'data' en tu base de datos
+# Ruta Editar producto
+@app.route('/edit_product/<id>')
+def edit_product(id):
+    products = db['products']
+    data = products.find_one({'_id': ObjectId(id)})
+    if data:
+        return render_template('edit_product.html', dataProduct=data)
+    else:
+        return "Producto no encontrado"
 
-        return "Producto agregado exitosamente"
-
-
-@app.route('/edit_product')
-def edit_product():
-    return "Editar producto"
-
-
-@app.route('/delete_product')
-def delete_product():
-    return "Eliminar producto"
-
+# Ruta eliminar producto
+@app.route('/delete_product/<id>')
+def delete_product(id):
+    products = db['products']
+    result = products.delete_one({'_id': ObjectId(id)})
+    if result.deleted_count > 0:
+        flash('Producto eliminado exitosamente')
+    else:
+        flash('Producto no encontrado')
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
