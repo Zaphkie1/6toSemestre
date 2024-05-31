@@ -1,6 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+# Programa de traslacion
+# Elaborado por Edgar Israel Trejo Vazquez y Denisse Delgadillo Pinedo
+# Nota: Para usar este programa es necesario tener instalado Python y la librebria matplotlib
+
+
 # Definir las coordenadas de las figuras
 figuras = {
     "cuadrado": np.array([(0, 0), (1, 0), (1, 1), (0, 1), (0, 0)]),
@@ -10,13 +15,13 @@ figuras = {
     "romboide": np.array([(0, 0), (2.5, 0), (3, 1), (0.8, 1), (0, 0)])
 }
 
-# Función para rotar una figura
 def rotar_figura(figura, angulo):
-    radianes = np.radians(angulo)
-    matriz_rotacion = np.array([[np.cos(radianes), -np.sin(radianes)],
+    angulo = -angulo  # Cambiar el signo del ángulo para la rotación en sentido contrario
+    radianes = np.radians(angulo)  # Convertir el ángulo a radianes
+    matriz_rotacion = np.array([[np.cos(radianes), -np.sin(radianes)],  # Matriz de rotación en 2D
                                 [np.sin(radianes), np.cos(radianes)]])
-    figura_rotada = np.dot(figura, matriz_rotacion)
-    return figura_rotada
+    figura_rotada = np.dot(figura, matriz_rotacion)  # Aplicar la rotación a las coordenadas de la figura
+
 
 # Crear subplots
 fig, axs = plt.subplots(2, 3, figsize=(15, 10))
